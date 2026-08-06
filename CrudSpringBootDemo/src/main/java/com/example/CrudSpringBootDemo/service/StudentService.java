@@ -10,7 +10,7 @@ import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
 
-@Service // Postman--->Controller--->Service--->Repository--->Database
+@Service
 public class StudentService {
 
     private StudentRepository studentRepository;
@@ -20,25 +20,29 @@ public class StudentService {
     }
 
     public Student createStudent(Student studentReq){
+        studentReq.setDeleted(false);
         Student studentResp = studentRepository.save(studentReq); // save is used to save record
         return studentReq;
     }
 
+    // Student == id and deleted == false
     public Student getStudent(Long id){
-        Optional<Student> studentResp = studentRepository.findById(id); // If such record does not exist to stay safe we use optional student which can be null as well
+        Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id); // If such record does not exist to stay safe we use optional student which can be null as well
         if(studentResp.isPresent()){
             return studentResp.get();
         }
-        return null;
+        return null; // find by id and deleted is false
     }
 
+    // Find all and deleted is false also start name from findBy ---> Naming convention for spring to define the method
     public List<Student>getAllStudents(){
-        List<Student>studentList = studentRepository.findAll();
-        return studentList;
+        List<Student>studentList = studentRepository.findByDeletedIsFalse();
+        return studentList; // find those which are not deleted
     }
+
 
     public Student updateStudent(Long id,Student studentReq){
-        Optional<Student> existingStudent = studentRepository.findById(id); // If such record does not exist we cant update then
+        Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id); // If such record does not exist we cant update then
         if(existingStudent.isEmpty()){
             return null;
         }
@@ -50,6 +54,7 @@ public class StudentService {
         studentToSave.setEmailId(studentReq.getEmailId());
         studentToSave.setSubject(studentReq.getSubject());
 
+        studentToSave.setDeleted(false); // so that nobody can update deleted
         return studentRepository.save(studentToSave);
     }
 
@@ -60,5 +65,19 @@ public class StudentService {
         }
         studentRepository.deleteById(id);
         return true;
+    }
+
+    public Boolean softDeleteStudent(Long id){
+        // 1. Get details even if the student exists
+        Optional<Student>existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
+        if (existingStudent.isEmpty()){
+            return false;
+        }
+        Student studentToSave = existingStudent.get();
+        // 2. Mark as deleted
+        studentToSave.setDeleted(true);
+        // 3. Save
+        studentRepository.save(studentToSave);
+        return true; // Soft deleted
     }
 }

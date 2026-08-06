@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController // Converts Java objects into JSON or XML and the class gets marked as controller
 @RequestMapping("/api/students") // entertain req of this form
+// Postman--->Controller--->Service--->Repository--->Database
 public class StudentController {
 
     private final StudentRepository studentRepository;
@@ -59,6 +60,14 @@ public class StudentController {
     public ResponseEntity<String> deleteStudent(@PathVariable Long id){ // student body is required to update
         Boolean isDeleted = studentService.deleteStudent(id);
         if (isDeleted) return ResponseEntity.ok("Student record deleted");
+        return ResponseEntity.notFound().build();
+    }
+
+    // For soft delete
+    @PatchMapping("{id}")
+    public ResponseEntity<String>sotfDeleteStudent(@PathVariable Long id){
+        Boolean isDeleted = studentService.softDeleteStudent(id);
+        if (isDeleted) return ResponseEntity.ok("Student record deleted softly");
         return ResponseEntity.notFound().build();
     }
 }
