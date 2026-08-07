@@ -22,7 +22,7 @@ public class StudentService {
     public Student createStudent(Student studentReq){
         studentReq.setDeleted(false);
         Student studentResp = studentRepository.save(studentReq); // save is used to save record
-        return studentReq;
+        return studentResp;
     }
 
     // Student == id and deleted == false

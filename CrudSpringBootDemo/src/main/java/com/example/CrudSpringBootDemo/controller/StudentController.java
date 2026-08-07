@@ -14,7 +14,7 @@ import java.util.List;
 // Postman--->Controller--->Service--->Repository--->Database
 public class StudentController {
 
-    private final StudentRepository studentRepository;
+    private StudentRepository studentRepository;
     private StudentService studentService;
 
     public StudentController(StudentService studentService, StudentRepository studentRepository) {
