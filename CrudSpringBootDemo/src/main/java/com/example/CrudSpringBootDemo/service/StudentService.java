@@ -35,7 +35,7 @@ public class StudentService {
         if(studentResp.isPresent()){
             return mapToDto(studentResp.get());
         }
-        return null; // find by id and deleted is false
+        return null;
     }
 
     // Find all and deleted is false also start name from findBy ---> Naming convention for spring to define the method

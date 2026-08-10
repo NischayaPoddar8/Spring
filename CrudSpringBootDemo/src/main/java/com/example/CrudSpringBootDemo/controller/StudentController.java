@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // Converts Java objects into JSON or XML and the class gets marked as controller
-@RequestMapping("/api/students") // entertain req of this form
+@RestController
+@RequestMapping("/api/students")
 // Postman--->Controller--->Service--->Repository--->Database
 public class StudentController {
 
@@ -27,15 +27,13 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    // 1. Create Student  POST--->/api/students
-    @PostMapping// ("/create") for /api/students/create
+    @PostMapping
     public ResponseEntity<CreateStudentResponseDto> createStudent(@Valid  @RequestBody CreateStudentRequestDto createStudentRequestDto){ // Converts java objects to JSON
 
         CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent); // To send 201 code instead of 200 which is ok
     }
 
-    // 2. Read One Student  GET--->/api/students/{id} To read one
     @GetMapping("/{id}")
     public ResponseEntity<CreateStudentResponseDto> getStudent(@PathVariable Long id){
         CreateStudentResponseDto studentResp = studentService.getStudent(id);
@@ -51,7 +49,6 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    // 3. Update Student  PUT--->/api/students/{id}
     @PutMapping ("/{id}")
     public ResponseEntity<UpdateStudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentRequestDto studentReq){ // student body is required to update
         UpdateStudentResponseDto studentResponse = studentService.updateStudent(id,studentReq);
@@ -59,8 +56,6 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-
-    //4. Delete Student  DELETE---->/api/students/{id}
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id){ // student body is required to update
         Boolean isDeleted = studentService.deleteStudent(id);
@@ -68,7 +63,6 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    // For soft delete
     @PatchMapping("{id}")
     public ResponseEntity<String>softDeleteStudent(@PathVariable Long id){
         Boolean isDeleted = studentService.softDeleteStudent(id);
