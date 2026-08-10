@@ -1,12 +1,14 @@
 package com.example.CrudSpringBootDemo.service;
 
+import com.example.CrudSpringBootDemo.Dto.CreateStudentRequestDto;
+import com.example.CrudSpringBootDemo.Dto.CreateStudentResponseDto;
+import com.example.CrudSpringBootDemo.Dto.UpdateStudentRequestDto;
+import com.example.CrudSpringBootDemo.Dto.UpdateStudentResponseDto;
 import com.example.CrudSpringBootDemo.entity.Student;
 import com.example.CrudSpringBootDemo.repository.StudentRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.stylesheets.LinkStyle;
 
-import java.security.PublicKey;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,29 +21,31 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Student createStudent(Student studentReq){
-        studentReq.setDeleted(false);
-        Student studentResp = studentRepository.save(studentReq); // save is used to save record
-        return studentResp;
+    public CreateStudentResponseDto createStudent(CreateStudentRequestDto studentReqDto){
+        Student student = mapToEntity(studentReqDto); // StudentReqDto gets converted into student entity with help of a mapper class
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
+        Student studentResp = studentRepository.save(student);
+        return mapToDto(studentResp); // then studentRespDto is mapped
     }
 
     // Student == id and deleted == false
-    public Student getStudent(Long id){
+    public CreateStudentResponseDto getStudent(Long id){
         Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id); // If such record does not exist to stay safe we use optional student which can be null as well
         if(studentResp.isPresent()){
-            return studentResp.get();
+            return mapToDto(studentResp.get());
         }
         return null; // find by id and deleted is false
     }
 
     // Find all and deleted is false also start name from findBy ---> Naming convention for spring to define the method
-    public List<Student>getAllStudents(){
+    public List<CreateStudentResponseDto>getAllStudents(){
         List<Student>studentList = studentRepository.findByDeletedIsFalse();
-        return studentList; // find those which are not deleted
+        return studentList.stream().map(this::mapToDto).toList(); // list is converted
     }
 
 
-    public Student updateStudent(Long id,Student studentReq){
+    public UpdateStudentResponseDto updateStudent(Long id, UpdateStudentRequestDto studentReq){
         Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id); // If such record does not exist we cant update then
         if(existingStudent.isEmpty()){
             return null;
@@ -51,11 +55,11 @@ public class StudentService {
         studentToSave.setName(studentReq.getName());
         studentToSave.setAge(studentReq.getAge());
         studentToSave.setRollNo(studentReq.getRollNo());
-        studentToSave.setEmailId(studentReq.getEmailId());
         studentToSave.setSubject(studentReq.getSubject());
+        studentToSave.setUpdatedAt(LocalDateTime.now());
 
-        studentToSave.setDeleted(false); // so that nobody can update deleted
-        return studentRepository.save(studentToSave);
+       Student savedStudent = studentRepository.save(studentToSave);
+       return mapToUpdateDto(savedStudent);
     }
 
     public Boolean deleteStudent(Long id){
@@ -79,5 +83,48 @@ public class StudentService {
         // 3. Save
         studentRepository.save(studentToSave);
         return true; // Soft deleted
+    }
+
+    private Student mapToEntity(CreateStudentRequestDto createStudentRequestDto){
+        Student student = new Student();
+
+        student.setAge(createStudentRequestDto.getAge());
+        student.setName(createStudentRequestDto.getName());
+        student.setRollNo(createStudentRequestDto.getRollNo());
+        student.setSubject(createStudentRequestDto.getSubject());
+        student.setEmailId(createStudentRequestDto.getEmailId());
+        student.setDeleted(false);
+
+        return student;
+    }
+
+    private CreateStudentResponseDto mapToDto(Student student){
+        CreateStudentResponseDto responseDto = new CreateStudentResponseDto();
+
+        responseDto.setAge(student.getAge());
+        responseDto.setEmailId(student.getEmailId());
+        responseDto.setId(student.getId());
+        responseDto.setName(student.getName());
+        responseDto.setRollNo(student.getRollNo());
+        responseDto.setSubject(student.getSubject());
+        responseDto.setMessage("Student created");
+        responseDto.setCreatedAt(student.getCreatedAt());
+        responseDto.setUpdatedAt(student.getUpdatedAt());
+        return responseDto;
+    }
+
+    private UpdateStudentResponseDto mapToUpdateDto(Student student){
+        UpdateStudentResponseDto responseDto = new UpdateStudentResponseDto();
+
+        responseDto.setAge(student.getAge());
+        responseDto.setName(student.getName());
+        responseDto.setRollNo(student.getRollNo());
+        responseDto.setSubject(student.getSubject());
+        responseDto.setId(student.getId());
+        responseDto.setEmailId(student.getEmailId()); // In respons email would be sent as response needs to be full of all required fields
+        responseDto.setMessage("Student updated");
+        responseDto.setUpdatedAt(LocalDateTime.now());
+
+        return responseDto; // sends response
     }
 }

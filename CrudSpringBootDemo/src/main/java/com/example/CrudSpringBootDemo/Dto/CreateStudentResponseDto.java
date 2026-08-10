@@ -1,24 +1,16 @@
-package com.example.CrudSpringBootDemo.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+package com.example.CrudSpringBootDemo.Dto;
 
 import java.time.LocalDateTime;
 
-@Entity // Used for mapping the class with database managed by spring JPA not IOC
-public class Student {
+public class CreateStudentResponseDto {
 
-    @Id // For primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // For auto incrementing id
     private Long id;
     private String name;
     private int age;
     private int rollNo;
     private String emailId;
     private String subject;
-    private boolean deleted;
+    private String message;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -70,12 +62,12 @@ public class Student {
         this.subject = subject;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public LocalDateTime getCreatedAt() {
