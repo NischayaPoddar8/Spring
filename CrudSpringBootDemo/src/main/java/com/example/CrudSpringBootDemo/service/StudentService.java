@@ -5,9 +5,11 @@ import com.example.CrudSpringBootDemo.Dto.CreateStudentResponseDto;
 import com.example.CrudSpringBootDemo.Dto.UpdateStudentRequestDto;
 import com.example.CrudSpringBootDemo.Dto.UpdateStudentResponseDto;
 import com.example.CrudSpringBootDemo.entity.Student;
+import com.example.CrudSpringBootDemo.exception.ResourceNotFoundException;
 import com.example.CrudSpringBootDemo.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.lang.module.ResolutionException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,19 +25,23 @@ public class StudentService {
 
     public CreateStudentResponseDto createStudent(CreateStudentRequestDto studentReqDto){
         Student student = mapToEntity(studentReqDto); // StudentReqDto gets converted into student entity with help of a mapper class
-        student.setCreatedAt(LocalDateTime.now());
-        student.setUpdatedAt(LocalDateTime.now());
         Student studentResp = studentRepository.save(student);
-        return mapToDto(studentResp); // then studentRespDto is mapped
+        return mapToDto(studentResp); // then studentRespDto is mapped and we receive the mapped response
     }
 
     // Student == id and deleted == false
     public CreateStudentResponseDto getStudent(Long id){
-        Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id); // If such record does not exist to stay safe we use optional student which can be null as well
-        if(studentResp.isPresent()){
-            return mapToDto(studentResp.get());
-        }
-        return null;
+        // Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id); // If such record does not exist to stay safe we use optional student which can be null as well
+//        if(studentResp.isPresent()){
+//            return mapToDto(studentResp.get());
+//        }
+        // return null;
+        Student studentResp = studentRepository
+                .findById(id)
+                .orElseThrow( () ->
+                        new ResourceNotFoundException("Student with id " + id + "not found") );
+
+        return mapToDto(studentResp); // Global exception handler will handle
     }
 
     // Find all and deleted is false also start name from findBy ---> Naming convention for spring to define the method
@@ -93,6 +99,8 @@ public class StudentService {
         student.setRollNo(createStudentRequestDto.getRollNo());
         student.setSubject(createStudentRequestDto.getSubject());
         student.setEmailId(createStudentRequestDto.getEmailId());
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
         student.setDeleted(false);
 
         return student;
