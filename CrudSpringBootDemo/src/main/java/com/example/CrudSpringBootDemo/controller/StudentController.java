@@ -52,21 +52,18 @@ public class StudentController {
     @PutMapping ("/{id}")
     public ResponseEntity<UpdateStudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentRequestDto studentReq){ // student body is required to update
         UpdateStudentResponseDto studentResponse = studentService.updateStudent(id,studentReq);
-        if (studentResponse!=null) return ResponseEntity.ok(studentResponse);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(studentResponse);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id){ // student body is required to update
-        Boolean isDeleted = studentService.deleteStudent(id);
-        if (isDeleted) return ResponseEntity.ok("Student record deleted");
-        return ResponseEntity.notFound().build();
+        studentService.deleteStudent(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("{id}")
     public ResponseEntity<String>softDeleteStudent(@PathVariable Long id){
-        Boolean isDeleted = studentService.softDeleteStudent(id);
-        if (isDeleted) return ResponseEntity.ok("Student record deleted softly");
-        return ResponseEntity.notFound().build();
+        studentService.softDeleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice // Helper class
 public class GlobalExceptionHandler{
 
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<String>handleDuplicateResourceException(DuplicateResourceException ex){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT) // code 409
+                .body(ex.getMessage());
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String>handleResourceNotFoundException(ResourceNotFoundException ex){
         return ResponseEntity
@@ -26,7 +33,7 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String>handleGenericException(Exception ex){
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR) // code 500
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(("Something went wong"));
     }
 

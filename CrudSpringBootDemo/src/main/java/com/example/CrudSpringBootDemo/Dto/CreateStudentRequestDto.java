@@ -8,14 +8,12 @@ public class CreateStudentRequestDto {
     private String name;
     @Min(value=18)
     private int age;
-    @NotEmpty // Value cant be null or empty but spaces can be there
+    @NotNull
     private int rollNo;
     @Email
     private String emailId;
     @NotNull
     private String subject;
-
-
 
     public String getName() {
         return name;
@@ -56,6 +54,5 @@ public class CreateStudentRequestDto {
     public void setSubject(String subject) {
         this.subject = subject;
     }
-
 
 }
