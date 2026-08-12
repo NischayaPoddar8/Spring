@@ -19,6 +19,7 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ExceptionResponseDto>handleDuplicateResourceException
             (DuplicateResourceException ex,HttpServletRequest request){
+
         ExceptionResponseDto exceptionResp = new ExceptionResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(), // status code

@@ -27,7 +27,7 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    @PostMapping
+    @PostMapping // Valid is used to validate the constraints like not null
     public ResponseEntity<CreateStudentResponseDto> createStudent(@Valid  @RequestBody CreateStudentRequestDto createStudentRequestDto){ // Converts java objects to JSON
 
         CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto);
@@ -37,16 +37,14 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity<CreateStudentResponseDto> getStudent(@PathVariable Long id){
         CreateStudentResponseDto studentResp = studentService.getStudent(id);
-        if (studentResp!=null) return ResponseEntity.ok(studentResp);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        return ResponseEntity.ok(studentResp);
     }
 
     // GetAll
     @GetMapping("/getAll")
     public ResponseEntity<List<CreateStudentResponseDto>> getAllStudents(){
         List<CreateStudentResponseDto>studentResp = studentService.getAllStudents();
-        if (studentResp!=null) return ResponseEntity.ok(studentResp);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(studentResp);
     }
 
     @PutMapping ("/{id}")

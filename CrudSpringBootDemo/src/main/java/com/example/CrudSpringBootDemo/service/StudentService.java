@@ -28,7 +28,7 @@ public class StudentService {
 
         if(emailExists(student)){
             throw new DuplicateResourceException(
-                    "Student with email " + student.getEmailId() + "already exists");
+                    "Student with email " + student.getEmailId() + "already exists"); // Message to be sent
         }
 
         Student studentResp = studentRepository.save(student);
@@ -62,7 +62,7 @@ public class StudentService {
                         new ResourceNotFoundException("Student with id " + id + "not found")
                 );
 
-        existingStudent.setName(studentReq.getName());
+        existingStudent.setName(studentReq.getName()); // We are doing map to entity here
         existingStudent.setAge(studentReq.getAge());
         existingStudent.setRollNo(studentReq.getRollNo());
         existingStudent.setSubject(studentReq.getSubject());

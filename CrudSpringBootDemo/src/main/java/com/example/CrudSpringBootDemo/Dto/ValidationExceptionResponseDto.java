@@ -19,7 +19,7 @@ public class ValidationExceptionResponseDto {
             , String message
             , String path
             , Map<String, String> fieldErrors
-    )
+        )
     {
         this.timeStamp = timeStamp;
         this.statusCode = statusCode;
