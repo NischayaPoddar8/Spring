@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringAopDemoApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringAopDemoApplication.class, args);
+		System.out.println("Main working");
 	}
 
 }
