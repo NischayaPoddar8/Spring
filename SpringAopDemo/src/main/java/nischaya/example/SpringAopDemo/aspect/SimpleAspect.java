@@ -32,7 +32,7 @@ public class SimpleAspect {
             String operation = trackExecutionTime.operation();
             Long warnTime = trackExecutionTime.warnAfter();
             String methodName = joinPoint.getSignature().getName();
-            
+
             if(warnTime<duration){
                 System.out.println("Taken too much time");
                 System.out.println("Time taken by method : " + methodName + " " + duration);
