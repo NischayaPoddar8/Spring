@@ -1,8 +1,9 @@
 package nischaya.example.JpaRelationshipDemo.controller;
 
+import nischaya.example.JpaRelationshipDemo.model.Student;
 import nischaya.example.JpaRelationshipDemo.service.StudentService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/students")
@@ -12,5 +13,17 @@ public class StudentController {
 
     public  StudentController(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<String>createStudent(@RequestBody Student student, @PathVariable Long id){
+        studentService.createStudent(student,id);
+        return ResponseEntity.ok("Student created");
+    }
+
+    @PostMapping
+    public ResponseEntity<String>createStudent(@RequestBody Student student,@RequestParam String deptName){
+        studentService.createStudent(student,deptName);
+        return ResponseEntity.ok("Student created");
     }
 }

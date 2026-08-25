@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class JpaRelationshipDemoApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(JpaRelationshipDemoApplication.class, args);
+		System.out.println("Main running");
 	}
 
 }
