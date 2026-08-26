@@ -24,9 +24,9 @@ public class StudentRepository {
     }
 
     // Eagerly fetches department and profile as we wish to get list of all students
-    @EntityGraph(attributePaths = "{department,profile}")
-    public List<Student>findAll(){
-        
-    }
+//    @EntityGraph(attributePaths = "{department,profile}")
+//    public List<Student>findAll(){
+//
+//    }
 
 }
