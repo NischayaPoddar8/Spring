@@ -14,4 +14,5 @@ public class StudentRepository {
     public void save(Student student){
         entityManager.persist(student);
     }
+
 }

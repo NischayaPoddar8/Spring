@@ -12,8 +12,9 @@ public class DepartmentRepository {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void save(Department department){
+    public Department save(Department department){
         entityManager.persist(department);
+        return department;
     }
 
     public Department getDepartment(Long id){

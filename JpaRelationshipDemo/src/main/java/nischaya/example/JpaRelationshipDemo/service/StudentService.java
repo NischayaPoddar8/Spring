@@ -19,21 +19,26 @@ public class StudentService {
     }
 
     @Transactional // Same as transactions of SQL
-    public void createStudent(Student student, Long id){ // Existing department
-        Department department = departmentRepository.getDepartment(id);
+    public void createStudent(Student student, Long dept_id){ // Existing department
+        Department department = departmentRepository.getDepartment(dept_id);
         student.setDepartment(department);
         department.getStudents().add(student);
         studentRepository.save(student);
     }
 
     @Transactional
-    public void createStudent(Student student, String deptName){ // Assign department while making student
-        Department department = new Department();
+    public void createStudent(Student student, String deptName) {
+
+        // 1. Create and save the department first
+        Department department = new Department(); // if department does not exist we need to check it
         department.setName(deptName);
-        student.setDepartment(department);
-        department.getStudents().add(student);
+        Department savedDepartment = departmentRepository.save(department);
+
+        // 2. Link the saved department to the student
+        student.setDepartment(savedDepartment);
+
         studentRepository.save(student);
-        departmentRepository.save(department); // Logically we need to first check if department exists then we find its id and save in student
+        savedDepartment.getStudents().add(student);
     }
     
 }

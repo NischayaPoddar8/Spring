@@ -21,9 +21,12 @@ public class DepartmentController {
         return ResponseEntity.ok("Done");
     }
 
-    @PostMapping("/withId")
-    public ResponseEntity<String> createDepartment(@RequestBody Department department, @RequestParam Long id){
-        departmentService.createDepartment(department,id);
+    @PostMapping("/withStudent")
+    public ResponseEntity<String> createDepartment(@RequestBody Department department
+            ,@RequestParam String studentName){
+
+        departmentService.createDepartment(department,studentName);
         return ResponseEntity.ok("Done");
+
     }
 }
