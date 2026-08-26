@@ -21,13 +21,4 @@ public class DepartmentController {
         return ResponseEntity.ok("Done");
     }
 
-    @PostMapping("/withStudent")
-    public ResponseEntity<String> createDepartment(@RequestBody Department department
-            ,@RequestParam String studentName){
-
-        departmentService.createDepartment(department,studentName);
-        return ResponseEntity.ok("Done");
-
-    }
-
 }

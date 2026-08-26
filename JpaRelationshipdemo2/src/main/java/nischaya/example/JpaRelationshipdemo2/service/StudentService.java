@@ -1,6 +1,8 @@
 package nischaya.example.JpaRelationshipdemo2.service;
 
+import nischaya.example.JpaRelationshipdemo2.repository.ProfileRepository;
 import nischaya.example.JpaRelationshipdemo2.model.Department;
+import nischaya.example.JpaRelationshipdemo2.model.Profile;
 import nischaya.example.JpaRelationshipdemo2.model.Student;
 import nischaya.example.JpaRelationshipdemo2.repository.DepartmentRepository;
 import nischaya.example.JpaRelationshipdemo2.repository.StudentRepository;
@@ -12,33 +14,41 @@ public class StudentService {
 
     private StudentRepository studentRepository;
     private DepartmentRepository departmentRepository;
+    private ProfileRepository profileRepository;
 
-    public StudentService(StudentRepository studentRepository, DepartmentRepository departmentRepository) {
+    public StudentService(StudentRepository studentRepository,
+                          DepartmentRepository departmentRepository,
+                          ProfileRepository profileRepository) {
         this.studentRepository = studentRepository;
         this.departmentRepository = departmentRepository;
-    }
-
-    @Transactional // Same as transactions of SQL
-    public void createStudent(Student student, Long dept_id){ // Existing department
-        Department department = departmentRepository.getDepartment(dept_id);
-        student.setDepartment(department);
-        department.getStudents().add(student);
-        studentRepository.save(student);
+        this.profileRepository = profileRepository;
     }
 
     @Transactional
-    public void createStudent(Student student, String deptName) {
+    public void createStudent(Student student){
 
-        // 1. Create and save the department first
-        Department department = new Department(); // if department does not exist we need to check it
-        department.setName(deptName);
-        Department savedDepartment = departmentRepository.save(department);
-
-        // 2. Link the saved department to the student
-        student.setDepartment(savedDepartment);
-
+        Department department = new Department();
+        department.setName("CSE");
+        student.setDepartment(department);
+        Profile profile = new Profile();
+        profile.setBio("Hi wssup");
+        student.setProfile(profile);
+        profileRepository.save(profile);
+        departmentRepository.save(department);
         studentRepository.save(student);
-        savedDepartment.getStudents().add(student);
     }
 
+    public Student getStudent(Long id){
+
+        Student s = studentRepository.fetchById(id);
+        System.out.println("Lazily fetched student");
+
+        Department d = s.getDepartment();
+        System.out.println("Lazily fetched department"); // using s we are fetching department
+
+        Profile p = s.getProfile();
+        System.out.println("Lazily fetched Profile");
+
+        return s;
+    }
 }

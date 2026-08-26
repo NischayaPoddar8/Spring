@@ -15,16 +15,16 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/{dept_id}") // For existing department
-    public ResponseEntity<String> createStudent(@RequestBody Student student, @PathVariable Long dept_id){
-        studentService.createStudent(student,dept_id);
+    @PostMapping
+    public ResponseEntity<String> createStudent(@RequestBody Student student){
+        studentService.createStudent(student);
         return ResponseEntity.ok("Student created");
     }
 
-    @PostMapping
-    public ResponseEntity<String>createStudent(@RequestBody Student student,@RequestParam String deptName){
-        studentService.createStudent(student,deptName);
-        return ResponseEntity.ok("Student created");
+    @GetMapping("/{id}")
+    public ResponseEntity<Student>getStudent(@PathVariable  Long id){
+        Student student = studentService.getStudent(id);
+        return ResponseEntity.ok(student);
     }
 
 }

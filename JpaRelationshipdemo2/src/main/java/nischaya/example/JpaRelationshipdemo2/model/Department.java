@@ -19,7 +19,7 @@ public class Department {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "department")
-    private List<Student> students = new ArrayList<>();
+//    @OneToMany(mappedBy = "department") // Inverse side
+//    private List<Student> students = new ArrayList<>();
 
 }

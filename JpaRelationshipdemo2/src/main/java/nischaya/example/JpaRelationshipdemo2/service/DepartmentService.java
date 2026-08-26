@@ -24,15 +24,4 @@ public class DepartmentService {
         departmentRepository.save(department);
     }
 
-    @Transactional
-    public void createDepartment(Department department,String studentName){
-        Student student = new Student(); // Consider we are adding new student
-        student.setName(studentName);
-        student.setDepartment(department);
-
-        department.getStudents().add(student);
-        departmentRepository.save(department);
-        studentRepository.save(student);
-    }
-
 }

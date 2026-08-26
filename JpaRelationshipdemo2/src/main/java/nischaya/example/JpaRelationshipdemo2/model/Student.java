@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.catalina.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,9 +20,12 @@ public class Student {
     private Long id;
     private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "dept_id",nullable = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name = "dept_id",nullable = false) // Owning side
     private Department department;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
 }
