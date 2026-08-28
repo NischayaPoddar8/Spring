@@ -5,6 +5,7 @@ import nischaya.example.SpringJpaDemo.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,5 +28,11 @@ public class StudentController {
     public ResponseEntity<Optional<Student>> getStudent(@PathVariable Long id){
         Optional<Student> student = studentService.getStudent(id);
         return ResponseEntity.ok(student);
+    }
+
+    @GetMapping("/getAll/{name}")
+    public ResponseEntity<List<Student>> getStudent(@PathVariable String name){
+        List<Student> students = studentService.getAllStudents(name);
+        return ResponseEntity.ok(students);
     }
 }
