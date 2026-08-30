@@ -26,7 +26,7 @@ public class JobPostRequestDto {
     @NotNull
     @Min(3)
     @Max(20)
-    private int minExperience;
+    private Integer minExperience;
 
     @NotNull
     @Positive

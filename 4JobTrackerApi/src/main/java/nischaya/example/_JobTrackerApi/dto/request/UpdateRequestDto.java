@@ -1,4 +1,4 @@
-package nischaya.example._JobTrackerApi.dto.response;
+package nischaya.example._JobTrackerApi.dto.request;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,17 +14,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobPostResponseDto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UpdateRequestDto {
 
     private String title;
     private String description;
-    private String companyEmail;
     private int minExperience;
     private double salary;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
 }
