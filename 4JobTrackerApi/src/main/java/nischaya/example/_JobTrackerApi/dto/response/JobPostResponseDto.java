@@ -27,4 +27,5 @@ public class JobPostResponseDto {
     private double salary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 }

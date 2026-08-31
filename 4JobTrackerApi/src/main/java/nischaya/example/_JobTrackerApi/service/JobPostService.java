@@ -4,10 +4,10 @@ import nischaya.example._JobTrackerApi.dto.request.JobPostRequestDto;
 import nischaya.example._JobTrackerApi.dto.request.UpdateRequestDto;
 import nischaya.example._JobTrackerApi.dto.response.JobPostResponseDto;
 import nischaya.example._JobTrackerApi.entity.JobPost;
+import nischaya.example._JobTrackerApi.exception.ResourceNotFoundException;
 import nischaya.example._JobTrackerApi.repository.JobPostRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class JobPostService {
@@ -28,41 +28,48 @@ public class JobPostService {
     }
 
     public JobPostResponseDto getJobPost(Long id){
-        Optional<JobPost> jobPost = jobPostRepository.findById(id);
-        if (jobPost.isPresent()) return mapToDto(jobPost.get());
-        return null;
+        JobPost jobPost = jobPostRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("No job with id = " + id + "found")
+        );
+        return mapToDto(jobPost);
     }
 
     public JobPostResponseDto updateJobPost(UpdateRequestDto requestDto, Long id){
-        Optional<JobPost> jobPost = jobPostRepository.findById(id);
-        if (jobPost.isEmpty()) return null;
+
+        JobPost jobPost = jobPostRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("No job with id = " + id + "found")
+        );
 
         // Change to updated entity first
-        JobPost existingJobPost = jobPost.get();
-        existingJobPost.setDescription(requestDto.getDescription());
-        existingJobPost.setMinExperience(requestDto.getMinExperience());
-        existingJobPost.setSalary(requestDto.getSalary());
-        existingJobPost.setTitle(requestDto.getTitle());
+        jobPost.setDescription(requestDto.getDescription());
+        jobPost.setMinExperience(requestDto.getMinExperience());
+        jobPost.setSalary(requestDto.getSalary());
+        jobPost.setTitle(requestDto.getTitle());
 
         // Map to response DTO
-        JobPost savedJob = jobPostRepository.save(existingJobPost);
+        JobPost savedJob = jobPostRepository.save(jobPost);
         return mapToDto(savedJob);
     }
 
     public void deleteJobPost(Long id){
-        Optional<JobPost> jobToBeDeleted = jobPostRepository.findById(id);
-        if (jobToBeDeleted.isPresent()) {
-            jobPostRepository.delete(jobToBeDeleted.get());
-        }
+
+        JobPost jobToBeDeleted = jobPostRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("No job with id = " + id + "found")
+        );
+
+        jobPostRepository.delete(jobToBeDeleted);
     }
 
     public void softDelete(Long id){
-        Optional<JobPost> jobToBeDeleted = jobPostRepository.findByIdAndIsArchivedIsFalse(id);
-        if (jobToBeDeleted.isPresent()) {
-            JobPost jobPost = jobToBeDeleted.get();
-            jobPost.setArchived(true);
-            jobPostRepository.save(jobPost);
-        }
+
+        JobPost jobToBeDeleted = jobPostRepository.findByIdAndIsArchivedIsFalse(id)
+                .orElseThrow( ()->new ResourceNotFoundException("No job with id = " + id + "found")
+        );
+
+        jobToBeDeleted.setArchived(true);
+        jobToBeDeleted.setUpdatedAt(LocalDateTime.now());
+        jobPostRepository.save(jobToBeDeleted);
+
     }
 
     private JobPost mapToEntity(JobPostRequestDto jobPostRequestDto){

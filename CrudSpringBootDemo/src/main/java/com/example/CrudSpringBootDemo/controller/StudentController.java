@@ -62,6 +62,6 @@ public class StudentController {
     @PatchMapping("{id}")
     public ResponseEntity<String>softDeleteStudent(@PathVariable Long id){
         studentService.softDeleteStudent(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

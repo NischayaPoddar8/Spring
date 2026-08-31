@@ -1,11 +1,10 @@
 package nischaya.example._JobTrackerApi.controller;
 
-import lombok.Getter;
 import nischaya.example._JobTrackerApi.dto.request.JobPostRequestDto;
 import nischaya.example._JobTrackerApi.dto.request.UpdateRequestDto;
 import nischaya.example._JobTrackerApi.dto.response.JobPostResponseDto;
-import nischaya.example._JobTrackerApi.entity.JobPost;
 import nischaya.example._JobTrackerApi.service.JobPostService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class JobPostController {
     @PostMapping
     public ResponseEntity<JobPostResponseDto> createJobPost(@RequestBody JobPostRequestDto jobPostRequestDto){
         JobPostResponseDto jobPostResponseDto = jobPostService.createJobPost(jobPostRequestDto);
-        return ResponseEntity.ok(jobPostResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobPostResponseDto);
     }
 
     @GetMapping("/{id}")
@@ -42,12 +41,12 @@ public class JobPostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String>deleteJobPost(@PathVariable Long id){
         jobPostService.deleteJobPost(id);
-        return ResponseEntity.ok("Job Post deleted");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // No JSON body to be sent
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<String>softDelete(@PathVariable Long id){
         jobPostService.softDelete(id);
-        return ResponseEntity.ok("Job Post soft deleted");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
