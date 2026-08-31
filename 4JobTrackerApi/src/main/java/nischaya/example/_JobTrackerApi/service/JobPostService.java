@@ -29,7 +29,7 @@ public class JobPostService {
 
     public JobPostResponseDto getJobPost(Long id){
         JobPost jobPost = jobPostRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException("No job with id = " + id + "found")
+                ()-> new ResourceNotFoundException("No job with id = " + id + " found")
         );
         return mapToDto(jobPost);
     }
@@ -37,7 +37,7 @@ public class JobPostService {
     public JobPostResponseDto updateJobPost(UpdateRequestDto requestDto, Long id){
 
         JobPost jobPost = jobPostRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("No job with id = " + id + "found")
+                ()->new ResourceNotFoundException("No job with id = " + id + " found")
         );
 
         // Change to updated entity first
@@ -54,7 +54,7 @@ public class JobPostService {
     public void deleteJobPost(Long id){
 
         JobPost jobToBeDeleted = jobPostRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("No job with id = " + id + "found")
+                ()->new ResourceNotFoundException("No job with id = " + id + " found")
         );
 
         jobPostRepository.delete(jobToBeDeleted);
@@ -63,7 +63,7 @@ public class JobPostService {
     public void softDelete(Long id){
 
         JobPost jobToBeDeleted = jobPostRepository.findByIdAndIsArchivedIsFalse(id)
-                .orElseThrow( ()->new ResourceNotFoundException("No job with id = " + id + "found")
+                .orElseThrow( ()->new ResourceNotFoundException("No job with id = " + id + " found")
         );
 
         jobToBeDeleted.setArchived(true);

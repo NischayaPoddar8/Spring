@@ -1,5 +1,6 @@
 package nischaya.example._JobTrackerApi.controller;
 
+import jakarta.validation.Valid;
 import nischaya.example._JobTrackerApi.dto.request.JobPostRequestDto;
 import nischaya.example._JobTrackerApi.dto.request.UpdateRequestDto;
 import nischaya.example._JobTrackerApi.dto.response.JobPostResponseDto;
@@ -19,7 +20,7 @@ public class JobPostController {
     }
 
     @PostMapping
-    public ResponseEntity<JobPostResponseDto> createJobPost(@RequestBody JobPostRequestDto jobPostRequestDto){
+    public ResponseEntity<JobPostResponseDto> createJobPost(@Valid @RequestBody JobPostRequestDto jobPostRequestDto){
         JobPostResponseDto jobPostResponseDto = jobPostService.createJobPost(jobPostRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(jobPostResponseDto);
     }
@@ -31,7 +32,7 @@ public class JobPostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<JobPostResponseDto>updateJobPost(@RequestBody UpdateRequestDto requestDto,
+    public ResponseEntity<JobPostResponseDto>updateJobPost(@Valid  @RequestBody UpdateRequestDto requestDto,
                                                            @PathVariable Long id){
 
         JobPostResponseDto updatedJobPost = jobPostService.updateJobPost(requestDto,id);

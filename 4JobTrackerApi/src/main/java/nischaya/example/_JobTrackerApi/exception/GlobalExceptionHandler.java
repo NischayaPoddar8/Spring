@@ -1,7 +1,7 @@
 package nischaya.example._JobTrackerApi.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
-import nischaya.example._JobTrackerApi.dto.response.ErrorResponseDto;
+import nischaya.example._JobTrackerApi.dto.response.ExceptionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto>resourceNotFoundException
+    public ResponseEntity<ExceptionResponseDto>resourceNotFoundException
             (ResourceNotFoundException exception, HttpServletRequest servletRequest) {
 
-        ErrorResponseDto dto = new ErrorResponseDto(
+        ExceptionResponseDto dto = new ExceptionResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),
