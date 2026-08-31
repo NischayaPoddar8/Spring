@@ -26,7 +26,7 @@ public class JobPost {
     private String description;
     private String companyEmail;
     private int minExperience;
-    private double salary;
+    private Double salary;
     private boolean isArchived = false; // this is for soft delete we soft-delete it instead of wiping job from database
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

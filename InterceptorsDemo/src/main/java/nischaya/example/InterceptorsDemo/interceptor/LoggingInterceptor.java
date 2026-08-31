@@ -6,7 +6,6 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 @Component
 public class LoggingInterceptor implements HandlerInterceptor {
@@ -16,6 +15,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) // handler has all info related to controller and is called before controller layer
             throws Exception {
+
         System.out.println("Incoming Request -------------------------");
         System.out.println("HTTP METHOD: " +request.getMethod());
         System.out.println("Request URI: " +request.getRequestURI());
@@ -38,7 +38,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
                                  @Nullable Exception ex)
             throws Exception {
         System.out.println("Response Status : " +response.getStatus());
-//        System.out.println("After completion called");
-          return;
+//      System.out.println("After completion called");
+//      return;
     }
 }

@@ -20,6 +20,6 @@ public class UpdateRequestDto {
     @NotNull
     private int minExperience;
     @NotNull
-    private double salary;
+    private Double salary;
 
 }

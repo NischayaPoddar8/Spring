@@ -36,7 +36,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         finally {
             Long duration = System.currentTimeMillis()-startTime;
             System.out.println("Response status : " + response.getStatus());
-            System.out.println("Time taken = " + duration);
+            System.out.println("Time taken by api = " + duration);
         }
     }
 }

@@ -30,6 +30,6 @@ public class JobPostRequestDto {
 
     @NotNull
     @Positive
-    private double salary;
+    private Double salary;
 
 }
