@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
         exception.getBindingResult().getFieldErrors().
                 forEach(
                     error->fieldErrors.put(error.getField(),error.getDefaultMessage())
-                );
+                ); // Uses the error message that spring has stored
 
         ValidExceptionResponseDto dto = new ValidExceptionResponseDto(
             LocalDateTime.now(),
