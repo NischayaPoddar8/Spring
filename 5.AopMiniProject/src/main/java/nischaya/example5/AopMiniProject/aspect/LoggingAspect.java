@@ -1,6 +1,7 @@
 package nischaya.example5.AopMiniProject.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +41,15 @@ public class LoggingAspect {
         System.out.println("After Advice: Intercepted method " + joinPoint.getSignature().getName());
     } // Will run even if an exception is thrown like finally block
 
+    @Around("execution(* nischaya.example5.AopMiniProject.service.OrderServiceImpl.getOrderSummary(..))")
+    public Object aroundLog(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        System.out.println("Around log started");
+        long startTime = System.currentTimeMillis();
+        Object result = proceedingJoinPoint.proceed(); // Now all other aspects start
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("Time taken by aroundLog is : " + duration);
+        return result;
+    } // Around acts as a wrapper
 
-    public void aroundLog(){
 
-    }
 }

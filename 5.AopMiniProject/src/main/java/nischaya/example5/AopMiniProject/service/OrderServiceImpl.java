@@ -1,5 +1,6 @@
 package nischaya.example5.AopMiniProject.service;
 
+import nischaya.example5.AopMiniProject.annotation.AuditLog;
 import nischaya.example5.AopMiniProject.model.Order;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService {
 
     @Override
+    @AuditLog(action = "CREATE_ORDER") // Metadata just for code readability
     public Order placeOrder(String item, Double price) {
         System.out.println("Executing placeOrder() in OrderServiceImpl");
         return new Order(101L, item, price, "CONFIRMED");
