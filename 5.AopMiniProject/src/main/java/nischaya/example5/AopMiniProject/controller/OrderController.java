@@ -23,13 +23,13 @@ public class OrderController {
     }
 
     @GetMapping("/cancel/{id}")
-    public String cancelOrder(@PathVariable Long orderId){
-        return orderService.cancelOrder(orderId);
+    public String cancelOrder(@PathVariable Long id){
+        return orderService.cancelOrder(id);
     }
 
     @GetMapping("/summary/{id}")
-    public String getOrderSummary(@PathVariable Long orderId){
-        return orderService.getOrderSummary(orderId);
+    public String getOrderSummary(@PathVariable Long id){
+        return orderService.getOrderSummary(id);
     }
 
     @GetMapping("/pay")
