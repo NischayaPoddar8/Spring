@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class Order {
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id") // order is owning side of user
     private User user; //This name and mapped by name shall be same
 
     @ManyToMany
@@ -34,4 +35,11 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "productId")
     )
     private List<Product>productList;
+
+    public List<Product> getProductList() {
+        if (this.productList == null) {
+            this.productList = new ArrayList<>();
+        }
+        return this.productList;
+    }
 }

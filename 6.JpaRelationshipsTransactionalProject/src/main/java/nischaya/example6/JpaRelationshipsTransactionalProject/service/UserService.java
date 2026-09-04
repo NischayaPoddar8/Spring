@@ -7,6 +7,7 @@ import nischaya.example6.JpaRelationshipsTransactionalProject.entity.UserProfile
 import nischaya.example6.JpaRelationshipsTransactionalProject.repository.ProductRepo;
 import nischaya.example6.JpaRelationshipsTransactionalProject.repository.UserRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -65,6 +66,58 @@ public class UserService {
 
         user.setOrderList(List.of(order1,order2));
         userRepo.save(user);
+    }
+
+    @Transactional
+    public void testLazyLoading(Long userId){
+
+        System.out.println("Fetching user by userId -----");
+        User user = userRepo.findById(userId).orElseThrow();
+        System.out.println("Fetched user" + user.getName());
+
+        System.out.println("Inspecting class of order list");
+        System.out.println(user.getOrderList().getClass().getName());
+
+        System.out.println("Size of order list is " + user.getOrderList().size());
+
+        System.out.println("Accessing products details inside each order");
+
+        for(Order order : user.getOrderList()){
+            System.out.println("Fetching order details for order no : " +order.getOrderTrackingNo());
+            for(Product p : order.getProductList()){
+                System.out.println("Product is : " + p.getName() + "price is " + p.getPrice());
+            }
+        }
+    }
+
+    @Transactional // To test entity graph
+    public void testEntityGraph(Long userId){
+
+        System.out.println("Fetching user by userId -----");
+        User user = userRepo.findWithOrdersAndProductsById(userId).orElseThrow();
+        System.out.println("Fetched user" + user.getName());
+
+        System.out.println("Inspecting class of order list");
+        System.out.println(user.getOrderList().getClass().getName());
+
+        System.out.println("Size of order list is " + user.getOrderList().size());
+
+        System.out.println("Accessing products details inside each order");
+
+        for(Order order : user.getOrderList()){
+            System.out.println("Fetching order details for order no : " +order.getOrderTrackingNo());
+            for(Product p : order.getProductList()){
+                System.out.println("Product is : " + p.getName() + "price is " + p.getPrice());
+            }
+        }
+    }
+
+    @Transactional
+    public void changeName(Long userId){
+        User user = userRepo.findById(userId).orElseThrow();
+        System.out.println("Changing name of " + user.getName());
+        user.setName("Adam");
+        System.out.println("Exiting method -----");
     }
 
 }
