@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope("prototype") // Every time a new bean is created whenever requireed
-// Does lazy intialization
+@Scope("prototype") // Every time a new bean is created whenever required
+// Does lazy initialization
 public class OrderService {
 
     public OrderService(){

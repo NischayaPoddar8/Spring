@@ -9,7 +9,7 @@ public class Main {
         OrderService order1 = context.getBean(OrderService.class); // 1 bean created here
         // OrderService order2 = context.getBean(OrderService.class);
 
-        // System.out.println(order1==order2); // Singleton bean scope ---> Means IOC container uses only single bean or object by default and doesnt create extra unecessary objects
+        // System.out.println(order1==order2); // Singleton bean scope ---> Means IOC container uses only single bean or object by default and doesn't create extra unnecessary objects
         // Eager initialization in singleton scope
     }
 }

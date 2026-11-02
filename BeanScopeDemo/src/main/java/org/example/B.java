@@ -4,7 +4,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-// Stateful class --> Protoype
+// Stateful class --> Prototype
 // Stateless class ---> Singleton
 public class B {
     private OrderService orderService;

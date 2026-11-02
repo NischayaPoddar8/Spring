@@ -5,6 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Main {
     public static void main(String[] args) {
+
         // To start ioc container using annotation configuration
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         // The rules of AppConfig.class get used
