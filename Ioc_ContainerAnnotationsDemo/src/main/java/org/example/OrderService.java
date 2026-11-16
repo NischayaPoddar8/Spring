@@ -7,13 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderService {
 
-   // PaymentService payment;  // No need of this spring handles it as it knows it needs to create beans of component
-
-//    OrderService(PaymentService payment){
-//        this.payment = payment;
-//    }
-
-    // @Autowired ---> Filed injection
+    // @Autowired ---> Field injection
     private PaymentService payment;
 
        // Constructor Injection
@@ -28,7 +22,6 @@ public class OrderService {
 //    }
 
     public void placeOrder(){
-        // payment.pay(); // Order is placed as payment happened
         payment.pay();
         System.out.println("Order Placed");
     }

@@ -8,6 +8,7 @@ public class Main {
 
         // To start ioc container using annotation configuration
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
         // The rules of AppConfig.class get used
 
 //        User user = new User("Adi",23);
@@ -31,8 +32,8 @@ public class Main {
         OrderService order = context.getBean(OrderService.class); // Without creating object manually spring handles it
         order.placeOrder();
 
-        // Even payment service .pay() command would work because of autowiring
 
+        // Even payment service .pay() command would work because of autowiring
 //        PaymentService payment = context.getBean(PaymentService.class);
 //        payment.pay();
     }

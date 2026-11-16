@@ -7,5 +7,4 @@ public interface PaymentService {
     public void pay();
 
         // System.out.println("Payment successful"); --> Now we will change this for other annotations usage to interface
-
 }
