@@ -30,6 +30,6 @@ public class studentController {
 
     @GetMapping("/csrf")
     public CsrfToken getToken(CsrfToken csrfToken){
-        return csrfToken; 
+        return csrfToken;
     }
 }
